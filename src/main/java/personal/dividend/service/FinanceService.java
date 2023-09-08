@@ -1,7 +1,8 @@
 package personal.dividend.service;
 
 import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import personal.dividend.model.Company;
@@ -18,13 +19,14 @@ import java.util.stream.Collectors;
 
 import static personal.dividend.model.constants.CacheKey.KEY_FINANCE;
 
-@Slf4j
 @Service
 @AllArgsConstructor
 public class FinanceService {
 
     private final CompanyRepository companyRepository;
     private final DividendRepository dividendRepository;
+
+    private static final Logger log = LoggerFactory.getLogger(FinanceService.class);
 
     @Cacheable(key = "#companyName", value = KEY_FINANCE)
     public ScrapedResult getDividendByCompanyName(String companyName) {
