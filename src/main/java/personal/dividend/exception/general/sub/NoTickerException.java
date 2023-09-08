@@ -3,9 +3,9 @@ package personal.dividend.exception.general.sub;
 import org.springframework.http.HttpStatus;
 import personal.dividend.exception.general.AbstractGeneralException;
 
-public class AlreadyExistUserException extends AbstractGeneralException {
+public class NoTickerException extends AbstractGeneralException {
 
-    public AlreadyExistUserException(String message) {
+    public NoTickerException(String message) {
         super(message);
     }
 

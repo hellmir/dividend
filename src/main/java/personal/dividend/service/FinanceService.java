@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
-import personal.dividend.exception.impl.NoCompanyException;
+import personal.dividend.exception.general.sub.NoCompanyException;
 import personal.dividend.model.Company;
 import personal.dividend.model.Dividend;
 import personal.dividend.model.ScrapedResult;

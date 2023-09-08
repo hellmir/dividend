@@ -1,9 +1,11 @@
-package personal.dividend.exception;
+package personal.dividend.exception.general;
 
-public abstract class AbstractException extends RuntimeException {
+public abstract class AbstractGeneralException extends RuntimeException {
+
+    public AbstractGeneralException(String message) {
+        super(message);
+    }
 
     abstract public int getStatusCode();
-
-    abstract public String getMessage();
 
 }
