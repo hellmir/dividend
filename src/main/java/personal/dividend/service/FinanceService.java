@@ -33,7 +33,8 @@ public class FinanceService {
 
         //  1. 회사명을 기준으로 회사 정보를 조회
         CompanyEntity company = companyRepository.findByName(companyName)
-                .orElseThrow(() -> new NoCompanyException());
+                .orElseThrow(() -> new NoCompanyException
+                        ("failed to find company with companyName -> " + companyName));
 
         //  2. 조회된 회사의 아이디로 배당금 정보 조회
         List<DividendEntity> dividendEntities = dividendRepository.findAllByCompanyId(company.getId());
