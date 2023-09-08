@@ -1,9 +1,9 @@
-package personal.dividend.exception.impl;
+package personal.dividend.exception.sub;
 
 import org.springframework.http.HttpStatus;
 import personal.dividend.exception.AbstractException;
 
-public class AlreadyExistUserException extends AbstractException {
+public class NotCorrectPasswordException extends AbstractException {
 
     @Override
     public int getStatusCode() {
@@ -12,7 +12,7 @@ public class AlreadyExistUserException extends AbstractException {
 
     @Override
     public String getMessage() {
-        return "이미 존재하는 사용자명입니다.";
+        return "일치하지 않는 비밀번호 입니다.";
     }
 
 }
