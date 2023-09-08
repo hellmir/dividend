@@ -1,7 +1,8 @@
 package personal.dividend.scheduler;
 
 import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -18,7 +19,6 @@ import java.util.List;
 
 import static personal.dividend.model.constants.CacheKey.KEY_FINANCE;
 
-@Slf4j
 @Component
 @AllArgsConstructor
 @EnableCaching
@@ -28,6 +28,8 @@ public class ScraperScheduler {
     private final DividendRepository dividendRepository;
 
     private final Scraper yahooFinanceScraper;
+
+    private static final Logger log = LoggerFactory.getLogger(ScraperScheduler.class);
 
     @CacheEvict(value = KEY_FINANCE, allEntries = true)
     @Scheduled(cron = "${scheduler.scrap.yahoo}")

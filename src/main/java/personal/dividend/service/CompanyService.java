@@ -1,8 +1,9 @@
 package personal.dividend.service;
 
 import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.Trie;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -17,10 +18,10 @@ import personal.dividend.persist.repository.CompanyRepository;
 import personal.dividend.persist.repository.DividendRepository;
 import personal.dividend.scraper.Scraper;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Slf4j
 @Service
 @AllArgsConstructor
 public class CompanyService {
@@ -30,6 +31,8 @@ public class CompanyService {
 
     private final CompanyRepository companyRepository;
     private final DividendRepository dividendRepository;
+
+    private static final Logger log = LoggerFactory.getLogger(CompanyService.class);
 
     public Company save(String ticker) {
 
@@ -46,6 +49,9 @@ public class CompanyService {
     }
 
     public Page<CompanyEntity> getAllCompany(Pageable pageable) {
+
+        log.info("get all company");
+
         return companyRepository.findAll(pageable);
     }
 
@@ -89,10 +95,15 @@ public class CompanyService {
     }*/
 
     public void addAutocompleteKeyWord(String companyName) {
+
+        log.info("add autocomplete keyword -> " + companyName);
+
         trie.put(companyName, null);
     }
 
     public List<String> autocomplete(String keyword) {
+
+        log.info("autocomplete keyword -> " + keyword);
 
         return (List<String>) trie.prefixMap(keyword).keySet()
                 .stream()
@@ -102,7 +113,11 @@ public class CompanyService {
     }
 
     public void deleteAutocompleteKeyword(String keyword) {
+
+        log.info("delete autocomplete keyword -> " + keyword);
+
         trie.remove(keyword);
+
     }
 
     public String deleteCompany(String ticker) {

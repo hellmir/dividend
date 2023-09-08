@@ -1,7 +1,8 @@
 package personal.dividend.service;
 
 import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -22,13 +23,20 @@ public class MemberService implements UserDetailsService {
     private final PasswordEncoder passwordEncoder;
     private final MemberRepository memberRepository;
 
+    private static final Logger log = LoggerFactory.getLogger(MemberService.class);
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+
+        log.info("load user -> " + username);
+
         return memberRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("couldn't find user -> " + username));
     }
 
     public MemberEntity register(SignUp member) {
+
+        log.info("register user -> " + member.getUsername());
 
         boolean exists = memberRepository.existsByUsername(member.getUsername());
 
@@ -46,6 +54,7 @@ public class MemberService implements UserDetailsService {
 
     public MemberEntity authenticate(SignIn member) {
 
+        log.info("authenticate user -> " + member.getUsername());
 
         var user = memberRepository.findByUsername(member.getUsername())
                 .orElseThrow(() -> new UsernameNotFoundException("couldn't find user -> " + member.getUsername()));
