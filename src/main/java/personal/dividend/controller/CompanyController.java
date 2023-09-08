@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
+import personal.dividend.exception.general.sub.NoTickerException;
 import personal.dividend.model.Company;
 import personal.dividend.model.constants.CacheKey;
 import personal.dividend.persist.entity.CompanyEntity;
@@ -58,7 +59,7 @@ public class CompanyController {
         String ticker = request.getTicker().trim();
 
         if (ObjectUtils.isEmpty(ticker)) {
-            throw new RuntimeException("ticker is empty");
+            throw new NoTickerException("failed to scrap ticker -> " + ticker);
         }
 
         Company company = companyService.save(ticker);

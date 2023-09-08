@@ -6,6 +6,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.stereotype.Component;
+import personal.dividend.exception.significant.InvalidMonthException;
 import personal.dividend.model.Company;
 import personal.dividend.model.Dividend;
 import personal.dividend.model.ScrapedResult;
@@ -61,7 +62,7 @@ public class YahooFinanceScraper implements Scraper {
                 String dividend = splits[3];
 
                 if (month < 0) {
-                    throw new RuntimeException("Unexpected Month enum value -> " + splits[0]);
+                    throw new InvalidMonthException("Unexpected Month enum value -> " + splits[0]);
                 }
 
                 dividends.add(new Dividend(LocalDateTime.of(year, month, day, 0, 0), dividend));

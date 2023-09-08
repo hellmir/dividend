@@ -1,4 +1,4 @@
-package personal.dividend.exception;
+package personal.dividend.exception.response;
 
 import lombok.Builder;
 import lombok.Data;
