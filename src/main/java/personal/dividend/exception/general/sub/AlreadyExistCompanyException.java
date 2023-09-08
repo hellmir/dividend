@@ -11,7 +11,7 @@ public class AlreadyExistCompanyException extends AbstractGeneralException {
 
     @Override
     public int getStatusCode() {
-        return HttpStatus.BAD_REQUEST.value();
+        return HttpStatus.CONFLICT.value();
     }
 
 }

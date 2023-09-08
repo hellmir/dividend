@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
-import personal.dividend.exception.general.sub.NoCompanyException;
 import personal.dividend.model.Company;
 import personal.dividend.model.Dividend;
 import personal.dividend.model.ScrapedResult;
@@ -13,6 +12,7 @@ import personal.dividend.persist.entity.DividendEntity;
 import personal.dividend.persist.repository.CompanyRepository;
 import personal.dividend.persist.repository.DividendRepository;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -33,7 +33,7 @@ public class FinanceService {
 
         //  1. 회사명을 기준으로 회사 정보를 조회
         CompanyEntity company = companyRepository.findByName(companyName)
-                .orElseThrow(() -> new NoCompanyException
+                .orElseThrow(() -> new EntityNotFoundException
                         ("failed to find company with companyName -> " + companyName));
 
         //  2. 조회된 회사의 아이디로 배당금 정보 조회

@@ -9,7 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
-import personal.dividend.exception.general.sub.NoTickerException;
+import personal.dividend.exception.serious.sub.NoTickerException;
 import personal.dividend.model.Company;
 import personal.dividend.model.constants.CacheKey;
 import personal.dividend.persist.entity.CompanyEntity;
