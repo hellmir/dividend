@@ -1,7 +1,7 @@
-package personal.dividend.exception.significant;
+package personal.dividend.exception.significant.sub;
 
 import org.springframework.http.HttpStatus;
-import personal.dividend.exception.general.AbstractGeneralException;
+import personal.dividend.exception.significant.AbstractSignificantException;
 
 public class InvalidMonthException extends AbstractSignificantException {
 
