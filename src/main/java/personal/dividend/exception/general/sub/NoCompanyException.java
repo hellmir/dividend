@@ -5,8 +5,8 @@ import personal.dividend.exception.general.AbstractGeneralException;
 
 public class NoCompanyException extends AbstractGeneralException {
 
-    public NoCompanyException() {
-        super("존재하지 않는 회사명 입니다.");
+    public NoCompanyException(String message) {
+        super(message);
     }
 
     @Override

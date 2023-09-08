@@ -111,7 +111,8 @@ public class CompanyService {
         log.info("delete company -> " + ticker);
 
         var company = companyRepository.findByTicker(ticker)
-                .orElseThrow(() -> new NoCompanyException());
+                .orElseThrow(() -> new NoCompanyException
+                        ("failed to find company with ticker -> " + ticker));
 
         dividendRepository.deleteAllByCompanyId(company.getId());
         companyRepository.delete(company);
