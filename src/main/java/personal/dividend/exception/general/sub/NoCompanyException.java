@@ -1,9 +1,9 @@
-package personal.dividend.exception.impl;
+package personal.dividend.exception.sub;
 
 import org.springframework.http.HttpStatus;
 import personal.dividend.exception.AbstractException;
 
-public class NotExistUserException extends AbstractException {
+public class NoCompanyException extends AbstractException {
 
     @Override
     public int getStatusCode() {
@@ -12,7 +12,7 @@ public class NotExistUserException extends AbstractException {
 
     @Override
     public String getMessage() {
-        return "존재하지 않는 아이디입니다.";
+        return "존재하지 않는 회사명 입니다.";
     }
 
 }

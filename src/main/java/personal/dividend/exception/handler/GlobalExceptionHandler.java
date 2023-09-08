@@ -12,6 +12,9 @@ public class CustomExceptionHandler {
 
     @ExceptionHandler(AbstractException.class)
     protected ResponseEntity<ErrorResponse> handleCustomException(AbstractException e) {
+
+        log.info(e.getMessage());
+
         ErrorResponse errorResponse = ErrorResponse.builder()
                 .code(e.getStatusCode())
                 .message(e.getMessage())
@@ -19,6 +22,18 @@ public class CustomExceptionHandler {
 
         return new ResponseEntity<>(errorResponse, HttpStatus.resolve(e.getStatusCode()));
 
+    }
+
+    @ExceptionHandler(AlreadyExistCompanyException.class)
+    public ResponseEntity<ErrorResponse> handleAlreadyExistCompanyException
+            (AlreadyExistCompanyException e) {
+
+        ErrorResponse errorResponse = ErrorResponse.builder()
+                .code(e.getStatusCode())
+                .message(e.getMessage())
+                .build();
+
+        return new ResponseEntity<>(errorResponse, HttpStatus.resolve(e.getStatusCode()));
     }
 
 }
