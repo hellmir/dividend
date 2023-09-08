@@ -8,19 +8,21 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import personal.dividend.exception.general.AbstractGeneralException;
 import personal.dividend.exception.response.ErrorResponse;
+import personal.dividend.exception.serious.AbstractSeriousException;
 import personal.dividend.exception.significant.AbstractSignificantException;
 
+import javax.persistence.EntityNotFoundException;
 import java.io.IOException;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-    Logger LOG = LoggerFactory.getLogger(GlobalExceptionHandler.class);
+    Logger log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
     @ExceptionHandler(AbstractGeneralException.class)
     protected ResponseEntity<ErrorResponse> handleGeneralException(AbstractGeneralException e) {
 
-        LOG.info("Exception occurred: {}", e.getMessage(), e);
+        log.info("Exception occurred: {}", e.getMessage(), e);
 
         ErrorResponse errorResponse = ErrorResponse.builder()
                 .code(e.getStatusCode())
@@ -35,7 +37,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse> handleSignificantException
             (AbstractSignificantException e) {
 
-        LOG.warn("Warning exception occurred: {}", e.getMessage(), e);
+        log.warn("Warning exception occurred: {}", e.getMessage(), e);
 
         ErrorResponse errorResponse = ErrorResponse.builder()
                 .code(e.getStatusCode())
@@ -46,12 +48,41 @@ public class GlobalExceptionHandler {
 
     }
 
+    @ExceptionHandler(AbstractSeriousException.class)
+    public ResponseEntity<ErrorResponse> handleAbstractSeriousException
+            (AbstractSeriousException e) {
+
+        log.error("Error exception occurred: {}", e.getMessage(), e);
+
+        ErrorResponse errorResponse = ErrorResponse.builder()
+                .code(e.getStatusCode())
+                .message(e.getMessage())
+                .build();
+
+        return new ResponseEntity<>(errorResponse, HttpStatus.resolve(e.getStatusCode()));
+
+    }
+
+    @ExceptionHandler(EntityNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleEntityNotFoundException
+            (EntityNotFoundException e) {
+
+        log.warn("Warning exception occurred: {}", e.getMessage(), e);
+
+        ErrorResponse errorResponse = ErrorResponse.builder()
+                .code(HttpStatus.NOT_FOUND.value())
+                .message(e.getMessage())
+                .build();
+
+        return new ResponseEntity<>(errorResponse, HttpStatus.resolve(HttpStatus.NOT_FOUND.value()));
+
+    }
 
     @ExceptionHandler(IOException.class)
     public ResponseEntity<ErrorResponse> handleIOException
             (IOException e) {
 
-        LOG.error("Error exception occurred: {}", e.getMessage(), e);
+        log.error("Error exception occurred: {}", e.getMessage(), e);
 
         ErrorResponse errorResponse = ErrorResponse.builder()
                 .code(HttpStatus.INTERNAL_SERVER_ERROR.value())

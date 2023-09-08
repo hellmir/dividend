@@ -8,12 +8,13 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import personal.dividend.exception.general.sub.AlreadyExistUserException;
-import personal.dividend.exception.general.sub.NotCorrectPasswordException;
-import personal.dividend.model.Auth;
+import personal.dividend.exception.significant.sub.NotCorrectPasswordException;
 import personal.dividend.persist.entity.MemberEntity;
 import personal.dividend.persist.repository.MemberRepository;
 
-@Slf4j
+import static personal.dividend.model.Auth.SignIn;
+import static personal.dividend.model.Auth.SignUp;
+
 @Service
 @AllArgsConstructor
 public class MemberService implements UserDetailsService {
@@ -27,25 +28,27 @@ public class MemberService implements UserDetailsService {
                 .orElseThrow(() -> new UsernameNotFoundException("couldn't find user -> " + username));
     }
 
-    public MemberEntity register(Auth.SignUp member) {
+    public MemberEntity register(SignUp member) {
+
         boolean exists = memberRepository.existsByUsername(member.getUsername());
+
         if (exists) {
             throw new AlreadyExistUserException("Already exists username -> " + member.getUsername());
         }
 
         member.setPassword(passwordEncoder.encode(member.getPassword()));
+
         var result = memberRepository.save(member.toEntity());
 
         return result;
 
     }
 
-    public MemberEntity authenticate(Auth.SignIn member) {
+    public MemberEntity authenticate(SignIn member) {
+
 
         var user = memberRepository.findByUsername(member.getUsername())
-                .orElseThrow(() -> new UsernameNotFoundException
-                        ("couldn't find user -> " + member.getUsername()));
-
+                .orElseThrow(() -> new UsernameNotFoundException("couldn't find user -> " + member.getUsername()));
         if (!passwordEncoder.matches(member.getPassword(), user.getPassword())) {
             throw new NotCorrectPasswordException();
         }

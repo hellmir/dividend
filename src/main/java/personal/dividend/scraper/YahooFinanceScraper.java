@@ -6,7 +6,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.stereotype.Component;
-import personal.dividend.exception.significant.sub.InvalidMonthException;
+import personal.dividend.exception.serious.sub.InvalidMonthException;
 import personal.dividend.model.Company;
 import personal.dividend.model.Dividend;
 import personal.dividend.model.ScrapedResult;

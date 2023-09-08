@@ -8,8 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 import personal.dividend.exception.general.sub.AlreadyExistCompanyException;
-import personal.dividend.exception.general.sub.NoCompanyException;
-import personal.dividend.exception.general.sub.NoTickerException;
+import personal.dividend.exception.serious.sub.NoTickerException;
 import personal.dividend.model.Company;
 import personal.dividend.model.ScrapedResult;
 import personal.dividend.persist.entity.CompanyEntity;
@@ -111,7 +110,7 @@ public class CompanyService {
         log.info("delete company -> " + ticker);
 
         var company = companyRepository.findByTicker(ticker)
-                .orElseThrow(() -> new NoCompanyException
+                .orElseThrow(() -> new EntityNotFoundException
                         ("failed to find company with ticker -> " + ticker));
 
         dividendRepository.deleteAllByCompanyId(company.getId());
