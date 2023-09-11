@@ -35,7 +35,7 @@ public class FinanceServiceImpl implements FinanceService {
 
     private final ModelMapper modelMapper;
 
-    private static final Logger log = LoggerFactory.getLogger(FinanceServiceImpl.class);
+    private static final Logger log = LoggerFactory.getLogger(FinanceService.class);
 
     @Override
     @Cacheable(key = "#companyName", value = KEY_FINANCE)
@@ -61,8 +61,8 @@ public class FinanceServiceImpl implements FinanceService {
 
         stopWatch.stop();
 
-        log.info("Dividend retrieved successfully\n Retrieving task execution time: {} ms",
-                stopWatch.getTotalTimeMillis());
+        log.info("Dividend retrieved successfully: {}\n Retrieving task execution time: {} ms",
+                companyName, stopWatch.getTotalTimeMillis());
 
         return modelMapper.map(
                 new ScrapedResult(new Company(company.getTicker(), company.getName()), dividends),

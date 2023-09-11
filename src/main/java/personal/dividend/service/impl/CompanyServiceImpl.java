@@ -1,7 +1,6 @@
 package personal.dividend.service.impl;
 
 import lombok.AllArgsConstructor;
-import org.apache.commons.collections4.Trie;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,6 +22,7 @@ import personal.dividend.persist.entity.DividendEntity;
 import personal.dividend.persist.repository.CompanyRepository;
 import personal.dividend.persist.repository.DividendRepository;
 import personal.dividend.scraper.Scraper;
+import personal.dividend.service.AutoCompleteService;
 import personal.dividend.service.CompanyService;
 
 import javax.persistence.EntityNotFoundException;
@@ -35,15 +35,16 @@ import static org.springframework.transaction.annotation.Isolation.READ_COMMITTE
 @AllArgsConstructor
 public class CompanyServiceImpl implements CompanyService {
 
-    private final Trie trie;
     private final Scraper yahooFinanceScraper;
 
     private final CompanyRepository companyRepository;
     private final DividendRepository dividendRepository;
 
+    private final AutoCompleteService autoCompleteService;
+
     private final ModelMapper modelMapper;
 
-    private static final Logger log = LoggerFactory.getLogger(CompanyServiceImpl.class);
+    private static final Logger log = LoggerFactory.getLogger(CompanyService.class);
 
     @Override
     @Transactional(isolation = READ_COMMITTED, timeout = 30)
@@ -103,54 +104,11 @@ public class CompanyServiceImpl implements CompanyService {
         dividendRepository.deleteAllByCompanyId(company.getId());
         companyRepository.delete(company);
 
-        deleteAutocompleteKeyword(company.getName());
+        autoCompleteService.deleteAutocompleteKeyword(company.getName());
 
         log.info("Company deleted successfully: " + ticker);
 
         return company.getName();
-
-    }
-
-    //  DB Query 이용 자동완성
-/*    public List<String> getCompanyNamesByKeyword(String keyword) {
-
-        Pageable limit = PageRequest.of(0, 10);
-
-        Page<CompanyEntity> companyEntities = companyRepository.findByNameStartingWithIgnoreCase(keyword, limit);
-
-        return companyEntities.stream()
-                .map(e -> e.getName())
-                .collect(Collectors.toList());
-
-    }*/
-
-    @Override
-    public void addAutocompleteKeyWord(String companyName) {
-
-        log.info("Add autocomplete keyword by companyName: " + companyName);
-
-        trie.put(companyName, null);
-
-    }
-
-    @Override
-    public List<String> autocomplete(String keyword) {
-
-        log.info("Retrieve autocomplete keyword: " + keyword);
-
-        return (List<String>) trie.prefixMap(keyword).keySet()
-                .stream()
-                .limit(10)
-                .collect(Collectors.toList());
-
-    }
-
-    @Override
-    public void deleteAutocompleteKeyword(String keyword) {
-
-        log.info("Delete autocomplete keyword: " + keyword);
-
-        trie.remove(keyword);
 
     }
 
@@ -176,8 +134,8 @@ public class CompanyServiceImpl implements CompanyService {
 
         stopWatch.stop();
 
-        log.info("Company and dividend saved successfully\n Retrieving task execution time: {} ms",
-                stopWatch.getTotalTimeMillis());
+        log.info("Company and dividend saved successfully: {}\n Retrieving task execution time: {} ms",
+                ticker, stopWatch.getTotalTimeMillis());
 
         return modelMapper.map(company, CompanyResponseDto.class);
 
