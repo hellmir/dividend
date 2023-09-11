@@ -9,10 +9,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
+import personal.dividend.dto.CompanyEntityResponseDto;
+import personal.dividend.dto.CompanyResponseDto;
 import personal.dividend.exception.serious.sub.NoTickerException;
 import personal.dividend.model.Company;
 import personal.dividend.model.constants.CacheKey;
-import personal.dividend.persist.entity.CompanyEntity;
 import personal.dividend.service.CompanyService;
 
 @RestController
@@ -40,7 +41,7 @@ public class CompanyController {
     @PreAuthorize("hasRole('READ')")
     public ResponseEntity<?> searchCompany(final Pageable pageable) {
 
-        Page<CompanyEntity> companies = companyService.getAllCompany(pageable);
+        Page<CompanyEntityResponseDto> companies = companyService.getAllCompanies(pageable);
 
         return ResponseEntity.ok(companies);
 
@@ -62,11 +63,11 @@ public class CompanyController {
             throw new NoTickerException("failed to scrap ticker -> " + ticker);
         }
 
-        Company company = companyService.save(ticker);
+        CompanyResponseDto companyResponseDto = companyService.save(ticker);
 
-        companyService.addAutocompleteKeyWord(company.getName());
+        companyService.addAutocompleteKeyWord(companyResponseDto.getName());
 
-        return ResponseEntity.ok(company);
+        return ResponseEntity.ok(companyResponseDto);
 
     }
 

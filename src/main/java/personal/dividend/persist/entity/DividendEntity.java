@@ -1,5 +1,6 @@
 package personal.dividend.persist.entity;
 
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -11,7 +12,7 @@ import java.time.LocalDateTime;
 @Entity(name = "DIVIDEND")
 @Getter
 @ToString
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(
         uniqueConstraints = {
                 @UniqueConstraint(

@@ -1,5 +1,6 @@
 package personal.dividend.persist.entity;
 
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -10,7 +11,7 @@ import javax.persistence.*;
 @Entity(name = "COMPANY")
 @Getter
 @ToString
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class CompanyEntity {
 
     @Id

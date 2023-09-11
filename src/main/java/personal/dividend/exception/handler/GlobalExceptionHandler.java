@@ -25,11 +25,11 @@ public class GlobalExceptionHandler {
         log.info("Exception occurred: {}", e.getMessage(), e);
 
         ErrorResponse errorResponse = ErrorResponse.builder()
-                .code(e.getStatusCode())
+                .statusCode(e.getStatusCode())
                 .message(e.getMessage())
                 .build();
 
-        return new ResponseEntity<>(errorResponse, HttpStatus.resolve(e.getStatusCode()));
+        return new ResponseEntity<>(errorResponse, HttpStatus.resolve(errorResponse.getStatusCode()));
 
     }
 
@@ -40,11 +40,11 @@ public class GlobalExceptionHandler {
         log.warn("Warning exception occurred: {}", e.getMessage(), e);
 
         ErrorResponse errorResponse = ErrorResponse.builder()
-                .code(e.getStatusCode())
+                .statusCode(e.getStatusCode())
                 .message(e.getMessage())
                 .build();
 
-        return new ResponseEntity<>(errorResponse, HttpStatus.resolve(e.getStatusCode()));
+        return new ResponseEntity<>(errorResponse, HttpStatus.resolve(errorResponse.getStatusCode()));
 
     }
 
@@ -55,11 +55,11 @@ public class GlobalExceptionHandler {
         log.error("Error exception occurred: {}", e.getMessage(), e);
 
         ErrorResponse errorResponse = ErrorResponse.builder()
-                .code(e.getStatusCode())
+                .statusCode(e.getStatusCode())
                 .message(e.getMessage())
                 .build();
 
-        return new ResponseEntity<>(errorResponse, HttpStatus.resolve(e.getStatusCode()));
+        return new ResponseEntity<>(errorResponse, HttpStatus.resolve(errorResponse.getStatusCode()));
 
     }
 
@@ -70,13 +70,14 @@ public class GlobalExceptionHandler {
         log.warn("Warning exception occurred: {}", e.getMessage(), e);
 
         ErrorResponse errorResponse = ErrorResponse.builder()
-                .code(HttpStatus.NOT_FOUND.value())
+                .statusCode(HttpStatus.NOT_FOUND.value())
                 .message(e.getMessage())
                 .build();
 
-        return new ResponseEntity<>(errorResponse, HttpStatus.resolve(HttpStatus.NOT_FOUND.value()));
+        return new ResponseEntity<>(errorResponse, HttpStatus.resolve(errorResponse.getStatusCode()));
 
     }
+
 
     @ExceptionHandler(IOException.class)
     public ResponseEntity<ErrorResponse> handleIOException
@@ -85,11 +86,11 @@ public class GlobalExceptionHandler {
         log.error("Error exception occurred: {}", e.getMessage(), e);
 
         ErrorResponse errorResponse = ErrorResponse.builder()
-                .code(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                .statusCode(HttpStatus.INTERNAL_SERVER_ERROR.value())
                 .message(e.getMessage())
                 .build();
 
-        return new ResponseEntity<>(errorResponse, HttpStatus.resolve(HttpStatus.INTERNAL_SERVER_ERROR.value()));
+        return new ResponseEntity<>(errorResponse, HttpStatus.resolve(errorResponse.getStatusCode()));
 
     }
 
