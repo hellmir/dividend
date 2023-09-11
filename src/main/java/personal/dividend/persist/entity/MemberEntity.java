@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 @Entity(name = "MEMBER")
 @Getter
 @ToString
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 public class MemberEntity implements UserDetails {
 

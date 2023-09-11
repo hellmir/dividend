@@ -1,11 +1,11 @@
 package personal.dividend.exception.response;
 
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 
-@Data
 @Builder
+@Getter
 public class ErrorResponse {
-    private int code;
+    private int statusCode;
     private String message;
 }

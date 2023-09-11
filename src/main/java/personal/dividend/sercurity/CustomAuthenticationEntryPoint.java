@@ -33,7 +33,7 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 
             errorResponse = ErrorResponse.builder()
-                    .code(HttpServletResponse.SC_UNAUTHORIZED)
+                    .statusCode(HttpServletResponse.SC_UNAUTHORIZED)
                     .message(e.getMessage())
                     .build();
 
@@ -44,7 +44,7 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
             response.setStatus(HttpServletResponse.SC_FORBIDDEN);
 
             errorResponse = ErrorResponse.builder()
-                    .code(HttpServletResponse.SC_FORBIDDEN)
+                    .statusCode(HttpServletResponse.SC_FORBIDDEN)
                     .message(e.getMessage())
                     .build();
 
