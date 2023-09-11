@@ -15,7 +15,7 @@ public interface CompanyService {
 
     String deleteCompany(String ticker);
 
-    public void addAutocompleteKeyWord(String companyName);
+    void addAutocompleteKeyWord(String companyName);
 
     List<String> autocomplete(String keyword);
 
