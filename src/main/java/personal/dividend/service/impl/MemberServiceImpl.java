@@ -29,7 +29,7 @@ public class MemberServiceImpl implements MemberService, UserDetailsService {
 
     private final ModelMapper modelMapper;
 
-    private static final Logger log = LoggerFactory.getLogger(MemberServiceImpl.class);
+    private static final Logger log = LoggerFactory.getLogger(MemberService.class);
 
     @Override
     @Transactional(isolation = READ_COMMITTED, readOnly = true, timeout = 10)

@@ -14,6 +14,7 @@ import personal.dividend.dto.CompanyResponseDto;
 import personal.dividend.exception.serious.sub.NoTickerException;
 import personal.dividend.model.Company;
 import personal.dividend.model.constants.CacheKey;
+import personal.dividend.service.AutoCompleteService;
 import personal.dividend.service.CompanyService;
 
 @RestController
@@ -22,13 +23,14 @@ import personal.dividend.service.CompanyService;
 public class CompanyController {
 
     private final CompanyService companyService;
+    private final AutoCompleteService autoCompleteService;
     private final CacheManager redisCacheManager;
 
     @GetMapping("/autocomplete")
     public ResponseEntity<?> autocomplete(@RequestParam String keyword) {
 
         //  Trie 이용 자동완성
-        var result = companyService.autocomplete(keyword);
+        var result = autoCompleteService.autocomplete(keyword);
 
         //  DB Query 이용 자동완성
 //        var result = companyService.getCompanyNamesByKeyword(keyword);
@@ -65,7 +67,7 @@ public class CompanyController {
 
         CompanyResponseDto companyResponseDto = companyService.save(ticker);
 
-        companyService.addAutocompleteKeyWord(companyResponseDto.getName());
+        autoCompleteService.addAutocompleteKeyWord(companyResponseDto.getName());
 
         return ResponseEntity.ok(companyResponseDto);
 

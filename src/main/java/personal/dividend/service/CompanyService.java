@@ -5,8 +5,6 @@ import org.springframework.data.domain.Pageable;
 import personal.dividend.dto.CompanyEntityResponseDto;
 import personal.dividend.dto.CompanyResponseDto;
 
-import java.util.List;
-
 public interface CompanyService {
 
     CompanyResponseDto save(String ticker);
@@ -14,11 +12,5 @@ public interface CompanyService {
     Page<CompanyEntityResponseDto> getAllCompanies(Pageable pageable);
 
     String deleteCompany(String ticker);
-
-    void addAutocompleteKeyWord(String companyName);
-
-    List<String> autocomplete(String keyword);
-
-    void deleteAutocompleteKeyword(String keyword);
 
 }
